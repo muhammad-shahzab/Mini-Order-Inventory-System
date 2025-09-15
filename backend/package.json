@@ -1,0 +1,32 @@
+{
+  "name": "order-inventory-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Mini Order & Inventory System Backend",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "NODE_ENV=test node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "seed": "node src/seed.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^7.5.0",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express-validator": "^7.0.1"
+  },
+  "devDependencies": {
+    "jest": "^29.6.2",
+    "supertest": "^6.3.3",
+    "mongodb-memory-server": "^8.15.1"
+  },
+  "jest": {
+    "preset": "@shelf/jest-mongodb",
+    "testEnvironment": "node",
+    "transform": {}
+  }
+}
