@@ -1,223 +1,289 @@
 # Mini Order & Inventory System
 
-A complete full-stack order and inventory management system built with React, Node.js, Express, and MongoDB.
+A small application for a trading company to manage **products, customers, and orders** with persistent storage and reporting functionality.
 
-## Features
+---
 
-- **User Authentication**: JWT-based authentication with admin and customer roles
-- **Product Management**: CRUD operations for products with stock tracking
-- **Order Processing**: Complete order lifecycle from placement to fulfillment
-- **Payment Processing**: Secure payment validation and processing
-- **Inventory Management**: Real-time stock tracking with automatic updates
-- **Reporting**: Comprehensive reports for sales, stock, and orders
-- **Role-based Access**: Different interfaces for admin and customer users
+## **Table of Contents**
 
-## Technology Stack
+1. [Problem Solved](#problem-solved)
+2. [Tools & Approach](#tools--approach)
+3. [Setup & Installation](#setup--installation)
+4. [API Documentation](#api-documentation)
+5. [How to Test APIs](#how-to-test-apis)
+6. [Notes](#notes)
 
-### Backend
-- Node.js + Express.js
-- MongoDB with Mongoose ODM
-- JWT Authentication
-- bcryptjs for password hashing
-- Express Validator for input validation
+---
 
-### Frontend
-- React 18 with Vite
-- Material-UI (MUI) for components
-- Tailwind CSS for styling
-- React Router for navigation
-- Axios for API calls
+## **Problem Solved**
 
-### Testing
-- Jest for unit testing
-- Supertest for API testing
-- MongoDB Memory Server for test database
+This system manages inventory, orders, and customer information for a trading company.
+Key features include:
 
-## Getting Started
+* Manage products with **unique SKUs**
+* Manage customers with **unique emails**
+* Place orders with **stock validation**
+* Validate **payments** to exactly match total order amount
+* Track **order status**: Pending → Paid → Fulfilled / Cancelled
+* Generate reports: **stock, orders, sales summary**
 
-### Prerequisites
-- Node.js (v16 or higher)
-- MongoDB (local installation or MongoDB Atlas)
-- npm or yarn
+---
 
-### Installation
+## **Tools & Approach**
 
-1. **Clone the repository**
-   \`\`\`bash
-   git clone <repository-url>
-   cd order-inventory-system
-   \`\`\`
+**Frontend:**
 
-2. **Backend Setup**
-   \`\`\`bash
-   cd backend
-   npm install
-   
-   # Copy environment variables
-   cp .env.example .env
-   
-   # Edit .env with your MongoDB URI and JWT secret
-   # MONGO_URI=mongodb://localhost:27017/order-inventory
-   # JWT_SECRET=your-super-secret-jwt-key-here
-   # PORT=5000
-   \`\`\`
+* React.js
+* Material UI & Tailwind CSS
+* React Router for page navigation
 
-3. **Frontend Setup**
-   \`\`\`bash
-   cd ../frontend
-   npm install
-   \`\`\`
+**Backend:**
 
-4. **Seed the Database**
-   \`\`\`bash
-   cd ../backend
-   npm run seed
-   \`\`\`
+* Node.js with Express.js
+* MongoDB for persistent storage
+* Mongoose for object modeling
+* JWT for authentication
 
-5. **Start the Applications**
-   
-   Backend (Terminal 1):
-   \`\`\`bash
-   cd backend
-   npm run dev
-   \`\`\`
-   
-   Frontend (Terminal 2):
-   \`\`\`bash
-   cd frontend
-   npm run dev
-   \`\`\`
+**Approach:**
 
-The backend will run on http://localhost:5000 and the frontend on http://localhost:5173.
+* Backend exposes REST APIs for products, customers, orders, and reports
+* Frontend communicates with APIs and provides forms for CRUD operations
+* Validations ensure **data integrity**, including unique identifiers, stock availability, and payment correctness
 
-## Default Admin Credentials
+**AI Tools Used:**
 
-After running the seed script, you can login with:
-- **Email**: admin@example.com
-- **Password**: Admin@123
+* ChatGPT (OpenAI) – for code generation, debugging, and API documentation
 
-## API Endpoints
+---
 
-### Authentication
-- `POST /api/auth/register` - Register new customer
-- `POST /api/auth/login` - Login user
+## **Setup & Installation**
 
-### Products
-- `GET /api/products` - List all products (public)
-- `POST /api/products` - Create product (admin only)
-- `PUT /api/products/:id` - Update product (admin only)
-- `DELETE /api/products/:id` - Delete product (admin only)
+### 1. Clone Repository
 
-### Customers
-- `GET /api/customers` - List customers (admin only)
-- `POST /api/customers` - Create customer (admin only)
+```bash
+git clone <repository-url>
+cd <repository-folder>
+```
 
-### Orders
-- `POST /api/orders` - Place order (authenticated)
-- `GET /api/orders` - List orders (role-based access)
-- `GET /api/orders/:id` - Get order details (role-based access)
-- `POST /api/orders/:id/pay` - Pay for order (authenticated)
-- `POST /api/orders/:id/fulfill` - Fulfill order (admin only)
-- `POST /api/orders/:id/cancel` - Cancel order (authenticated)
+### 2. Backend Setup
 
-### Reports
-- `GET /api/reports/stock` - Stock report (admin only)
-- `GET /api/reports/orders` - Orders report with filters (admin only)
-- `GET /api/reports/sales-summary` - Sales summary (admin only)
-
-## Testing
-
-Run the backend tests:
-\`\`\`bash
+```bash
 cd backend
-npm test
-\`\`\`
+npm install
+```
 
-The test suite includes:
-- Order placement with stock validation
-- Payment processing with amount validation
-- Order lifecycle testing (place → pay → fulfill)
-- Stock restoration on order cancellation
+* Create `.env` in `backend/`:
 
-## Business Rules
+```env
+MONGO_URI=<your_mongodb_connection_string>
+JWT_SECRET=<your_secret_key>
+PORT=5000
+```
 
-1. **Stock Management**: Stock is decremented immediately when orders are placed using MongoDB transactions
-2. **Payment Validation**: Payments must exactly match order totals (no over/underpayments)
-3. **Order Status Flow**: Pending → Paid → Fulfilled (or Pending → Cancelled)
-4. **Role-based Access**: Admins can manage all data; customers can only view their own orders
-5. **Stock Restoration**: Cancelled orders automatically restore stock quantities
+* Start backend server:
 
-## Project Structure
+```bash
+npm run dev
+```
 
-\`\`\`
-/order-inventory-system
-  /backend
-    /src
-      /controllers     # Business logic controllers
-      /models         # Mongoose data models
-      /routes         # Express route definitions
-      /middlewares    # Authentication & validation middleware
-      /utils          # Utility functions and validators
-      server.js       # Express server setup
-      seed.js         # Database seeding script
-    /tests            # Jest test files
-    package.json
-    .env.example
+> Backend runs at `http://localhost:5000`
 
-  /frontend
-    /src
-      /pages          # React page components
-      /components     # Reusable React components
-      /services       # API service functions
-      /context        # React context providers
-      main.jsx        # React app entry point
-      App.jsx         # Main app component
-    package.json
-    vite.config.js
-\`\`\`
+---
 
-## Example API Usage
+### 3. Frontend Setup
 
-### Register a Customer
-\`\`\`bash
-curl -X POST http://localhost:5000/api/auth/register \
-  -H "Content-Type: application/json" \
-  -d '{"name":"John Doe","email":"john@example.com","password":"password123"}'
-\`\`\`
+```bash
+cd frontend
+npm install
+npm start
+```
 
-### Place an Order
-\`\`\`bash
-curl -X POST http://localhost:5000/api/orders \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
-  -d '{"customerId":"CUSTOMER_ID","items":[{"sku":"LAPTOP001","qty":1}]}'
-\`\`\`
+> Frontend runs at `http://localhost:3000`
 
-### Pay for an Order
-\`\`\`bash
-curl -X POST http://localhost:5000/api/orders/ORDER_ID/pay \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
-  -d '{"amount":1299.99,"method":"Credit Card"}'
-\`\`\`
+---
 
-## Contributing
+## **API Documentation**
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests for new functionality
-5. Ensure all tests pass
-6. Submit a pull request
+### **Base URL**
 
-## License
+```
+http://localhost:5000/api
+```
 
-This project is licensed under the MIT License.
+---
 
-## Notes
+### **Authentication APIs**
 
-- This project was built with AI assistance for educational and demonstration purposes
-- The system uses simplified payment processing for demo purposes
-- In production, implement proper payment gateway integration
-- Consider adding rate limiting, request logging, and enhanced security measures
-- The frontend uses localStorage for token storage (consider httpOnly cookies for production)
+#### 1. Register User
+
+```
+POST /auth/register
+```
+
+**Request Body**
+
+```json
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "password123",
+  "phone": "1234567890",
+  "address": "123 Main St"
+}
+```
+
+**Response**
+
+```json
+{
+  "success": true,
+  "token": "<JWT_TOKEN>",
+  "user": {
+    "id": "<user_id>",
+    "name": "John Doe",
+    "email": "john@example.com",
+    "phone": "1234567890",
+    "address": "123 Main St",
+    "role": "customer"
+  }
+}
+```
+
+---
+
+#### 2. Login User
+
+```
+POST /auth/login
+```
+
+**Request Body**
+
+```json
+{
+  "email": "john@example.com",
+  "password": "password123"
+}
+```
+
+**Response**
+
+```json
+{
+  "success": true,
+  "token": "<JWT_TOKEN>",
+  "user": {
+    "id": "<user_id>",
+    "name": "John Doe",
+    "email": "john@example.com",
+    "role": "customer"
+  }
+}
+```
+
+---
+
+### **Customer APIs** (Protected – requires JWT token)
+
+| Endpoint         | Method | Description                 |
+| ---------------- | ------ | --------------------------- |
+| `/customers`     | GET    | Get all customers           |
+| `/customers/:id` | GET    | Get a single customer by ID |
+| `/customers/:id` | PUT    | Update customer details     |
+| `/customers/:id` | DELETE | Delete a customer           |
+
+---
+
+### **Product APIs** (Protected – requires JWT token)
+
+| Endpoint        | Method | Description            |
+| --------------- | ------ | ---------------------- |
+| `/products`     | GET    | Get all products       |
+| `/products`     | POST   | Add new product        |
+| `/products/:id` | PUT    | Update product details |
+| `/products/:id` | DELETE | Delete a product       |
+
+**Add Product Example**
+
+```json
+{
+  "name": "Laptop",
+  "sku": "LP1001",
+  "price": 1000,
+  "stock": 50
+}
+```
+
+---
+
+### **Order APIs** (Protected – requires JWT token)
+
+| Endpoint      | Method | Description         |
+| ------------- | ------ | ------------------- |
+| `/orders`     | GET    | Get all orders      |
+| `/orders`     | POST   | Create new order    |
+| `/orders/:id` | PUT    | Update order status |
+
+**Create Order Example**
+
+```json
+{
+  "customerId": "<customer_id>",
+  "items": [
+    { "productId": "<product_id>", "quantity": 2 }
+  ],
+  "payment": 2000
+}
+```
+
+**Update Order Status Example**
+
+```json
+{
+  "status": "Paid"
+}
+```
+
+---
+
+### **Reports APIs** (Protected – requires JWT token)
+
+| Endpoint                 | Method | Description              |
+| ------------------------ | ------ | ------------------------ |
+| `/reports/stock`         | GET    | Get stock report         |
+| `/reports/orders`        | GET    | Get orders report        |
+| `/reports/sales-summary` | GET    | Get sales summary report |
+
+---
+
+## **How to Test APIs**
+
+1. Use **Postman** or **Insomnia**.
+2. Base URL: `http://localhost:5000/api`.
+3. Include JWT token in headers for protected routes:
+
+```
+Authorization: Bearer <JWT_TOKEN>
+```
+
+4. You can also test via the **frontend app**, which automatically handles token storage and API requests.
+
+---
+
+## **Notes**
+
+* MongoDB must be running locally or remotely.
+* Products must have **unique SKUs**.
+* Customers must have **unique emails**.
+* Orders cannot exceed stock.
+* Payment amount must match total order value.
+* Order status lifecycle:
+
+```
+Pending → Paid → Fulfilled
+Pending → Cancelled
+```
+
+---
+
+This README provides all necessary instructions, API details, and testing guidelines for your Mini Order & Inventory System.
