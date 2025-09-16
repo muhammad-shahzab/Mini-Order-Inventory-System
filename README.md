@@ -323,4 +323,4 @@ Pending → Cancelled
 
 ---
 
-This README provides all instructions, API details, admin/customer login information, and testing guidelines for your Mini Order & Inventory System.
+
