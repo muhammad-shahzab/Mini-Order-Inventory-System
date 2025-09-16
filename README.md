@@ -9,15 +9,18 @@ A small application for a trading company to manage **products, customers, and o
 1. [Problem Solved](#problem-solved)
 2. [Tools & Approach](#tools--approach)
 3. [Setup & Installation](#setup--installation)
-4. [API Documentation](#api-documentation)
-5. [How to Test APIs](#how-to-test-apis)
-6. [Notes](#notes)
+4. [Seed the Database](#seed-the-database)
+5. [Admin & Customer Login](#admin--customer-login)
+6. [API Documentation](#api-documentation)
+7. [How to Test APIs](#how-to-test-apis)
+8. [Notes](#notes)
 
 ---
 
 ## **Problem Solved**
 
 This system manages inventory, orders, and customer information for a trading company.
+
 Key features include:
 
 * Manage products with **unique SKUs**
@@ -99,6 +102,35 @@ npm start
 ```
 
 > Frontend runs at `http://localhost:3000`
+
+---
+
+## **Seed the Database**
+
+Before testing, populate the database with default data (products, customers, admin user):
+
+```bash
+cd backend
+node seedDB.js
+```
+
+> This will create initial admin, customers, and sample products.
+
+---
+
+## **Admin & Customer Login**
+
+* **Admin login:**
+
+  * Email: `admin@example.com` (from `seedDB.js`)
+  * Role: `admin`
+  * Can access all APIs including product, customer, order management, and reports.
+
+* **Customer login:**
+
+  * Email: any seeded customer email (or created via register)
+  * Role: `customer`
+  * Can view products, place orders, and view their own order history.
 
 ---
 
@@ -284,6 +316,10 @@ Pending → Paid → Fulfilled
 Pending → Cancelled
 ```
 
+* Admin user can access **all CRUD operations** and reports.
+* Customer user can place orders and view their orders only.
+* Run `seedDB.js` **before first use** to populate default data.
+
 ---
 
-This README provides all necessary instructions, API details, and testing guidelines for your Mini Order & Inventory System.
+This README provides all instructions, API details, admin/customer login information, and testing guidelines for your Mini Order & Inventory System.
