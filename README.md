@@ -56,6 +56,7 @@ Key features include:
 **AI Tools Used:**
 
 * ChatGPT (OpenAI) – for code generation, debugging, and API documentation
+* vO (vercel) – for frontend deveopment
 
 ---
 
